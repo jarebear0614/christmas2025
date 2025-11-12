@@ -1,4 +1,4 @@
-import { PanelOne } from '../game_objects/PanelOne';
+import { SalemStreets } from '../game_objects/SalemStreets';
 import { PanelBuilder, PanelRotator } from '../game_objects/PanelRotator';
 import { PanelThree } from '../game_objects/PanelThree';
 import { PanelTwo } from '../game_objects/PanelTwo';
@@ -42,6 +42,14 @@ export class Game extends BaseScene
         this.load.image('arrowLeft', 'assets/arrowLeft.png');
         this.load.image('arrowRight', 'assets/arrowRight.png');
         this.load.image('cross', 'assets/cross.png');
+
+        this.load.image('SalemStreetsWalkway', 'assets/SalemStreetsWalkway.png');
+        this.load.image('SalemStreetsLight', 'assets/SalemStreetsLight.png');
+        this.load.image('SalemStreetsCarriage', 'assets/SalemStreetsCarriage.png');
+        this.load.image('SalemStreetsBackground', 'assets/SalemStreetsBackground.png');
+        this.load.spritesheet('SalemStreetsManSprite', 'assets/SalemStreetsManSprite.png', {frameWidth: 64, frameHeight: 96 });
+
+        this.load.spritesheet('StardewPanelViviSpritesheet', 'assets/vivispritesheet.png', {frameWidth: 96, frameHeight: 128 })
     }
 
     create ()
@@ -52,7 +60,7 @@ export class Game extends BaseScene
         this.camera.setBackgroundColor(0xffffff);
 
         this.panelBuilder = new PanelBuilder(this)
-                                .add(new PanelOne(this, 0, 0).create())
+                                .add(new SalemStreets(this, 0, 0).create())
                                 .add(new PanelTwo(this, 0, 0).create())
                                 .add(new PanelThree(this, 0, 0).create());
 
@@ -80,7 +88,7 @@ export class Game extends BaseScene
 
         this.affirmationText = this.add.text(this.affirmationPaper.x + 30,  this.affirmationPaper.y + 60, '', {fontFamily: 'Arial', fontSize: 48, color: '#000000', wordWrap: {width: this.affirmationPaper.displayWidth - 60, useAdvancedWrap: true}})    
 
-        this.input.on('gameobjectup', (pointer: Object, gameObject: Phaser.GameObjects.GameObject) => 
+        this.input.on('gameobjectup', (_: Object, gameObject: Phaser.GameObjects.GameObject) => 
         {
             if(gameObject.name == "closeAffirmation") 
             {
@@ -88,21 +96,24 @@ export class Game extends BaseScene
                 return;
             }
 
-            this.openAffirmation(gameObject);
+            this.panelRotator.click(gameObject.name, (affirmation: string) =>
+            {
+                this.openAffirmation(gameObject, affirmation);
+            });
         });
 
-        this.input.on('gameobjectover', (pointer: Object, gameObject: Phaser.GameObjects.GameObject) => 
+        this.input.on('gameobjectover', (_: Object, gameObject: Phaser.GameObjects.GameObject) => 
         {
             this.panelRotator.over(gameObject.name);
         });
 
-        this.input.on('gameobjectout', (pointer: Object, gameObject: Phaser.GameObjects.GameObject) => 
+        this.input.on('gameobjectout', (_: Object, gameObject: Phaser.GameObjects.GameObject) => 
         {
             this.panelRotator.out(gameObject.name);
         });
     }
 
-    private openAffirmation(gameObject: GameObjects.GameObject) 
+    private openAffirmation(gameObject: GameObjects.GameObject, affirmation: string) 
     {
         if(this.affirmationDisplayed)
         {
@@ -110,8 +121,6 @@ export class Game extends BaseScene
         }
 
         this.affirmationDisplayed = true;
-
-        let affirmation = this.panelRotator.click(gameObject.name);
 
         this.tweens.add({
             targets: this.affirmationBackground,

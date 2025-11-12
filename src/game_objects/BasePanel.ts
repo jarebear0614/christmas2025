@@ -90,9 +90,9 @@ export class BasePanel
 
     }
 
-    click(date: string) : string
+    click(date: string, fn: (affirmation: string) => void) : void
     {
-        return AFFIRMATIONS[date];
+        fn(AFFIRMATIONS[date]);
     }
 
     setPosition(x: number, y: number)

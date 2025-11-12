@@ -104,9 +104,9 @@ export class PanelRotator {
         this.config.panels[this.index].panel.out(date);
     }
 
-    click(date: string) : string
+    click(date: string, fn: (affirmation: string) => void) : void
     {
-        return this.config.panels[this.index].panel.click(date);
+        return this.config.panels[this.index].panel.click(date, fn);
     }
 
     left() 
@@ -133,7 +133,7 @@ export class PanelRotator {
             duration: 400,
             repeat: 0,
             yoyo: false
-        })
+        });
 
         currentTween.onCompleteHandler = () => {
             this.scene.tweens.killTweensOf([previousPanel.panel, currentPanel.panel]);
