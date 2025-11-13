@@ -1,7 +1,7 @@
 import { SalemStreets } from '../game_objects/SalemStreets';
 import { PanelBuilder, PanelRotator } from '../game_objects/PanelRotator';
 import { PanelThree } from '../game_objects/PanelThree';
-import { PanelTwo } from '../game_objects/PanelTwo';
+import { StardewValley } from '../game_objects/StardewValley';
 import { BaseScene } from './BaseScene';
 
 import { GameObjects, Input } from 'phaser'
@@ -49,6 +49,7 @@ export class Game extends BaseScene
         this.load.image('SalemStreetsBackground', 'assets/SalemStreetsBackground.png');
         this.load.spritesheet('SalemStreetsManSprite', 'assets/SalemStreetsManSprite.png', {frameWidth: 64, frameHeight: 96 });
 
+        this.load.image('StardewValleyBackground', 'assets/StardewValleyBackground.png');
         this.load.spritesheet('StardewPanelViviSpritesheet', 'assets/vivispritesheet.png', {frameWidth: 96, frameHeight: 128 })
     }
 
@@ -61,7 +62,7 @@ export class Game extends BaseScene
 
         this.panelBuilder = new PanelBuilder(this)
                                 .add(new SalemStreets(this, 0, 0).create())
-                                .add(new PanelTwo(this, 0, 0).create())
+                                .add(new StardewValley(this, 0, 0).create())
                                 .add(new PanelThree(this, 0, 0).create());
 
         this.panelRotator = new PanelRotator(this, this.panelBuilder.toConfig()).create();

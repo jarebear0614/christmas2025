@@ -1,4 +1,4 @@
-import { Animations, GameObjects } from "phaser";
+import { GameObjects } from "phaser";
 import { BaseScene } from "../scenes/BaseScene";
 import { BasePanel } from "./BasePanel";
 
@@ -32,17 +32,6 @@ export class SalemStreets extends BasePanel
         this.light = this.scene.add.image(this.x, this.y, 'SalemStreetsLight').setOrigin(0, 0);
         this.carriage = this.scene.add.image(this.x, this.y, 'SalemStreetsCarriage').setOrigin(0, 0);
 
-        let viviXOffset = this.scene.getGameWidth() * 0.15;
-        let viviYOffset = this.scene.getGameHeight() * 0.10;
-        this.tempVivi = this.scene.add.sprite(this.x + viviXOffset, this.y + viviYOffset, 'StardewPanelViviSpritesheet', 0).setOrigin(0, 0);
-
-        this.scene.anims.create({
-            key: 'StardewPanelViviSpritesheet_Anim',
-            frames: this.scene.anims.generateFrameNumbers('StardewPanelViviSpritesheet', {start: 0, end: 5}),
-            frameRate: 5,
-            repeat: 0
-        });
-
         let manXOffset = this.scene.getGameWidth() * 0.05;
         let manYOffset = this.scene.getGameHeight() * 0.24;
         this.man = this.scene.add.sprite(this.x + manXOffset, this.y + manYOffset, 'SalemStreetsManSprite', 0).setOrigin(0, 0);
@@ -59,35 +48,14 @@ export class SalemStreets extends BasePanel
         this.addObject(this.light, 0, 0);
         this.addObject(this.carriage, 0, 0);
         this.addObject(this.man, manXOffset, manYOffset);
-        this.addObject(this.tempVivi, viviXOffset, viviYOffset);
 
         this.man.anims.play({key: 'SalemStreetsManSprite_Anim', }, false);
 
-        this.text1 = this.scene.add.text(0, 0, '1', {fontFamily: 'Arial', fontSize: 64, color: '#FFFFFF'})
-            .setStroke("#000000", 5)
-            .setScrollFactor(0)
-            .setVisible(true);
-
-        this.text2 = this.scene.add.text(0, 0, '2', {fontFamily: 'Arial', fontSize: 64, color: '#FFFFFF'})
-            .setStroke("#000000", 5)
-            .setScrollFactor(0)
-            .setVisible(true);
-
-        this.text3 = this.scene.add.text(0, 0, '3', {fontFamily: 'Arial', fontSize: 64, color: '#FFFFFF'})
-            .setStroke("#000000", 5)
-            .setScrollFactor(0)
-            .setVisible(true);
-
-        this.text4 = this.scene.add.text(0, 0, '4', {fontFamily: 'Arial', fontSize: 64, color: '#FFFFFF'})
-            .setStroke("#000000", 5)
-            .setScrollFactor(0)
-            .setVisible(true);
-
-        this.text5 = this.scene.add.text(0, 0, '5', {fontFamily: 'Arial', fontSize: 64, color: '#FFFFFF'})
-            .setStroke("#000000", 5)
-            .setScrollFactor(0)
-            .setVisible(true);
-
+        this.text1 = this.createNumberedText('1');
+        this.text2 = this.createNumberedText('2');
+        this.text3 = this.createNumberedText('3');
+        this.text4 = this.createNumberedText('4');
+        this.text5 = this.createNumberedText('5');
 
         let xOffsetText1 = (this.scene.getGameWidth() / 2) - (this.text1.displayWidth / 2);
         let yOffsetText1 = (this.scene.getGameHeight() / 2) - (this.text1.displayHeight / 2);
@@ -178,13 +146,6 @@ export class SalemStreets extends BasePanel
         }
         else if(date == '12/2/2025')
         {
-            this.tempVivi.anims.play('StardewPanelViviSpritesheet_Anim', false);
-
-            this.tempVivi.on(Animations.Events.ANIMATION_COMPLETE, () => {
-                this.tempVivi.off(Animations.Events.ANIMATION_COMPLETE);
-
-                super.click(date, fn);
-            });
         }
         else 
         {

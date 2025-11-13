@@ -112,4 +112,13 @@ export class BasePanel
             obj.transform.setPosition(this._x + obj.xOffset, this._y + obj.yOffset);
         }
     }
+
+    protected createNumberedText(number: string) 
+    {
+        return this.scene.add.text(0, 0, number, {fontFamily: 'Arial', fontSize: 64, color: '#FFFFFF'})
+            .setStroke("#000000", 5)
+            .setScrollFactor(0)
+            .setVisible(true)
+            .setOrigin(0, 0);
+    }
 }
