@@ -45,7 +45,7 @@ export class Game extends BaseScene
         this.load.image('cross', 'assets/cross.png');
 
         this.load.image('SalemStreetsWalkway', 'assets/SalemStreetsWalkway.png');
-        this.load.spritesheet('SalemStreetsLightSpritesheet', 'assets/SalemStreetsLightSpritesheet.png', {frameWidth: 57, frameHeight: 189})
+        this.load.spritesheet('SalemStreetsLightSpritesheet', 'assets/SalemStreetsLightSpriteSheet.png', {frameWidth: 57, frameHeight: 189})
         this.load.image('SalemStreetsCarriage2', 'assets/SalemStreetsCarriage2.png');
         this.load.image('SalemStreetsBackground', 'assets/SalemStreetsBackground.png');
         this.load.spritesheet('SalemStreetsManSprite', 'assets/SalemStreetsManSprite.png', {frameWidth: 64, frameHeight: 96 });
