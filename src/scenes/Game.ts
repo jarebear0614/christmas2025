@@ -1,6 +1,6 @@
 import { SalemStreets } from '../game_objects/SalemStreets';
 import { PanelBuilder, PanelRotator } from '../game_objects/PanelRotator';
-import { PanelThree } from '../game_objects/PanelThree';
+import { Loft } from '../game_objects/Loft';
 import { StardewValley } from '../game_objects/StardewValley';
 import { BaseScene } from './BaseScene';
 
@@ -22,7 +22,8 @@ export class Game extends BaseScene
     isRightKeyDown: boolean = false;
     isPreviousRightKeyDown: boolean = false;
 
-    currentDate: string = new Date().toLocaleDateString();
+    currentDate: Date = new Date(new Date().toLocaleDateString());
+    currentDisplayedDate?: string = undefined;
 
     affirmationDisplayed: boolean = false;
     affirmationBackground: GameObjects.Rectangle;
@@ -44,13 +45,18 @@ export class Game extends BaseScene
         this.load.image('cross', 'assets/cross.png');
 
         this.load.image('SalemStreetsWalkway', 'assets/SalemStreetsWalkway.png');
-        this.load.image('SalemStreetsLight', 'assets/SalemStreetsLight.png');
-        this.load.image('SalemStreetsCarriage', 'assets/SalemStreetsCarriage.png');
+        this.load.spritesheet('SalemStreetsLightSpritesheet', 'assets/SalemStreetsLightSpritesheet.png', {frameWidth: 57, frameHeight: 189})
+        this.load.image('SalemStreetsCarriage2', 'assets/SalemStreetsCarriage2.png');
         this.load.image('SalemStreetsBackground', 'assets/SalemStreetsBackground.png');
         this.load.spritesheet('SalemStreetsManSprite', 'assets/SalemStreetsManSprite.png', {frameWidth: 64, frameHeight: 96 });
 
         this.load.image('StardewValleyBackground', 'assets/StardewValleyBackground.png');
         this.load.spritesheet('StardewPanelViviSpritesheet', 'assets/vivispritesheet.png', {frameWidth: 96, frameHeight: 128 })
+
+
+        this.load.image('LoftFull', 'assets/LoftFull.png');
+        this.load.image('LoftYinYangCats', 'assets/LoftYinYangCats.png');
+        this.load.spritesheet('LoftMonitor', 'assets/LoftMonitor.png', {frameWidth: 120, frameHeight: 120 });
     }
 
     create ()
@@ -63,7 +69,7 @@ export class Game extends BaseScene
         this.panelBuilder = new PanelBuilder(this)
                                 .add(new SalemStreets(this, 0, 0).create())
                                 .add(new StardewValley(this, 0, 0).create())
-                                .add(new PanelThree(this, 0, 0).create());
+                                .add(new Loft(this, 0, 0).create());
 
         this.panelRotator = new PanelRotator(this, this.panelBuilder.toConfig()).create();
 
@@ -167,6 +173,8 @@ export class Game extends BaseScene
             this.panelRotator.off();
             this.panelRotator.out(gameObject.name);
 
+            this.currentDisplayedDate = gameObject.name;
+
             this.affirmationCloseBackground.setInteractive({useHandCursor: true});
         };
     }
@@ -215,6 +223,7 @@ export class Game extends BaseScene
             this.tweens.killTweensOf([this.affirmationPaper, this.affirmationClose, this.affirmationCloseBackground, this.affirmationBackground]);
 
             this.panelRotator.on();
+            this.panelRotator.closeAffirmation(this.currentDisplayedDate!)
 
             this.affirmationCloseBackground.disableInteractive(true);
 

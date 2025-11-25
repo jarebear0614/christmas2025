@@ -109,6 +109,11 @@ export class PanelRotator {
         return this.config.panels[this.index].panel.click(date, fn);
     }
 
+    closeAffirmation(date: string) : void 
+    {
+        this.config.panels[this.index].panel.closeAffirmation(date);
+    }
+
     left() 
     {
         if (this.animating) return;

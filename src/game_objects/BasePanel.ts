@@ -95,6 +95,11 @@ export class BasePanel
         fn(AFFIRMATIONS[date]);
     }
 
+    closeAffirmation(dateL: string) : void
+    {
+        
+    }
+
     setPosition(x: number, y: number)
     {
         this._x = x;

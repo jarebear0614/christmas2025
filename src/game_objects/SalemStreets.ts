@@ -1,4 +1,4 @@
-import { GameObjects } from "phaser";
+import { Animations, GameObjects } from "phaser";
 import { BaseScene } from "../scenes/BaseScene";
 import { BasePanel } from "./BasePanel";
 
@@ -13,10 +13,12 @@ export class SalemStreets extends BasePanel
     background: GameObjects.Image;
     walkway: GameObjects.Image;
     man: GameObjects.Sprite;
-    light: GameObjects.Image;
-    carriage: GameObjects.Image;
+    light: GameObjects.Sprite;
 
-    tempVivi: GameObjects.Sprite;
+    carriageXOffset: number;
+    carriageYOffset: number;
+    carriageDefaultDisplayWidth: number;
+    carriage: GameObjects.Image;
 
     constructor(scene: BaseScene, x: number, y: number)
     {
@@ -29,8 +31,22 @@ export class SalemStreets extends BasePanel
 
         this.background = this.scene.add.image(this.x, this.y, 'SalemStreetsBackground').setOrigin(0, 0);
         this.walkway = this.scene.add.image(this.x, this.y, 'SalemStreetsWalkway').setOrigin(0, 0);
-        this.light = this.scene.add.image(this.x, this.y, 'SalemStreetsLight').setOrigin(0, 0);
-        this.carriage = this.scene.add.image(this.x, this.y, 'SalemStreetsCarriage').setOrigin(0, 0);
+
+        let lightXOffset = this.scene.getGameWidth() * 0.73;
+        let lightYOffset = this.scene.getGameHeight() * 0.04;
+        this.light = this.scene.add.sprite(this.x + lightXOffset, this.y + lightYOffset, 'SalemStreetsLightSpritesheet', 0).setOrigin(0, 0);
+
+        this.scene.anims.create({
+            key: 'SalemStreetsLightSpritesheet_Anim',
+            frames: this.scene.anims.generateFrameNumbers('SalemStreetsLightSpritesheet', {start: 0, end: 4}),
+            frameRate: 7,
+            repeat: 0
+        });
+
+        this.carriageXOffset = this.scene.getGameWidth() * 0.54;
+        this.carriageYOffset = this.scene.getGameHeight() * 0.62;
+        this.carriage = this.scene.add.image(this.x + this.carriageXOffset, this.y + this.carriageYOffset, 'SalemStreetsCarriage2');
+        this.carriageDefaultDisplayWidth = this.carriage.displayWidth;
 
         let manXOffset = this.scene.getGameWidth() * 0.05;
         let manYOffset = this.scene.getGameHeight() * 0.24;
@@ -45,8 +61,8 @@ export class SalemStreets extends BasePanel
 
         this.addObject(this.background, 0, 0);
         this.addObject(this.walkway, 0, 0);
-        this.addObject(this.light, 0, 0);
-        this.addObject(this.carriage, 0, 0);
+        this.addObject(this.light, lightXOffset, lightYOffset);
+        this.addObject(this.carriage, this.carriageXOffset, this.carriageYOffset);
         this.addObject(this.man, manXOffset, manYOffset);
 
         this.man.anims.play({key: 'SalemStreetsManSprite_Anim', }, false);
@@ -134,7 +150,16 @@ export class SalemStreets extends BasePanel
                 targets: this.carriage,
                 y: -1024,
                 ease: 'Linear',
-                duration: 800,
+                duration: 1200,
+                repeat: 0,
+                yoyo: false
+            });
+
+            this.scene.add.tween({
+                targets: this.carriage,
+                displayWidth: 150,
+                ease: 'Linear',
+                duration: 600,
                 repeat: 0,
                 yoyo: false
             });
@@ -144,12 +169,28 @@ export class SalemStreets extends BasePanel
                 super.click(date, fn);
             }
         }
-        else if(date == '12/2/2025')
+        else if(date == '12/3/2025')
         {
+            this.light.anims.play('SalemStreetsLightSpritesheet_Anim', false);
+
+            this.light.on(Animations.Events.ANIMATION_COMPLETE, () => {
+                this.light.off(Animations.Events.ANIMATION_COMPLETE);
+
+                super.click(date, fn);
+            });
         }
         else 
         {
             super.click(date, fn);
+        }
+    }
+
+    closeAffirmation(date: string): void 
+    {
+        if(date == '12/1/2025')
+        {
+            this.carriage.setPosition(this.x + this.carriageXOffset, this.y + this.carriageYOffset);
+            this.carriage.displayWidth = this.carriageDefaultDisplayWidth;
         }
     }
 }
