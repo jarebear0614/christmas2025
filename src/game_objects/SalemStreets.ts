@@ -25,9 +25,9 @@ export class SalemStreets extends BasePanel
         super(scene, x, y);   
     }
 
-    create() : BasePanel
+    create(currentDate: Date) : BasePanel
     {
-        super.create();
+        super.create(currentDate);
 
         this.background = this.scene.add.image(this.x, this.y, 'SalemStreetsBackground').setOrigin(0, 0);
         this.walkway = this.scene.add.image(this.x, this.y, 'SalemStreetsWalkway').setOrigin(0, 0);
@@ -67,14 +67,15 @@ export class SalemStreets extends BasePanel
 
         this.man.anims.play({key: 'SalemStreetsManSprite_Anim', }, false);
 
-        this.text1 = this.createNumberedText('1');
-        this.text2 = this.createNumberedText('2');
-        this.text3 = this.createNumberedText('3');
-        this.text4 = this.createNumberedText('4');
-        this.text5 = this.createNumberedText('5');
+        console.log(currentDate > new Date(2025, 11, 1));
+        this.text1 = this.createNumberedText('1').setFill(currentDate >= new Date(2025, 11, 1) ? '#FFFFFF' : '#AAAAAA');
+        this.text2 = this.createNumberedText('6').setFill(currentDate >= new Date(2025, 11, 6) ? '#FFFFFF' : '#AAAAAA');
+        this.text3 = this.createNumberedText('11').setFill(currentDate >= new Date(2025, 11, 11) ? '#FFFFFF' : '#AAAAAA');
+        this.text4 = this.createNumberedText('16').setFill(currentDate >= new Date(2025, 11, 16) ? '#FFFFFF' : '#AAAAAA');
+        this.text5 = this.createNumberedText('21').setFill(currentDate >= new Date(2025, 11, 21) ? '#FFFFFF' : '#AAAAAA');
 
-        let xOffsetText1 = (this.scene.getGameWidth() / 2) - (this.text1.displayWidth / 2);
-        let yOffsetText1 = (this.scene.getGameHeight() / 2) - (this.text1.displayHeight / 2);
+        let xOffsetText1 = (this.scene.getGameWidth() * 0.55) - (this.text2.displayWidth / 2);
+        let yOffsetText1 = (this.scene.getGameHeight() * 0.60) - (this.text2.displayHeight / 2);
 
         this.text1.setPosition(this.x + xOffsetText1, this.y + yOffsetText1);
         this.addObject(this.text1, xOffsetText1, yOffsetText1);
@@ -91,8 +92,8 @@ export class SalemStreets extends BasePanel
         this.text3.setPosition(this.x + xOffsetText3, this.y + yOffsetText3);
         this.addObject(this.text3, xOffsetText3, yOffsetText3);
 
-        let xOffsetText4 = (this.scene.getGameWidth() * 0.85) - (this.text4.displayWidth / 2);
-        let yOffsetText4 = (this.scene.getGameHeight() * 0.85) - (this.text4.displayHeight / 2);
+        let xOffsetText4 = (this.scene.getGameWidth() * 0.55) - (this.text4.displayWidth / 2);
+        let yOffsetText4 = (this.scene.getGameHeight() * 0.15) - (this.text4.displayHeight / 2);
 
         this.text4.setPosition(this.x + xOffsetText4, this.y + yOffsetText4);
         this.addObject(this.text4, xOffsetText4, yOffsetText4);
@@ -104,42 +105,20 @@ export class SalemStreets extends BasePanel
         this.addObject(this.text5, xOffsetText5, yOffsetText5);
 
         this.addInteractable(this.scene.add.zone(this.x + xOffsetText1, this.y + yOffsetText1, this.text1.displayWidth,this.text1.displayHeight).setName('12/1/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText1, yOffsetText1);
-        this.addInteractable(this.scene.add.zone(this.x + xOffsetText2, this.y + yOffsetText2, this.text2.displayWidth,this.text2.displayHeight).setName('12/2/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText2, yOffsetText2);
-        this.addInteractable(this.scene.add.zone(this.x + xOffsetText3, this.y + yOffsetText3, this.text3.displayWidth,this.text3.displayHeight).setName('12/3/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText3, yOffsetText3);
-        this.addInteractable(this.scene.add.zone(this.x + xOffsetText4, this.y + yOffsetText4, this.text4.displayWidth,this.text4.displayHeight).setName('12/4/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText4, yOffsetText4);
-        this.addInteractable(this.scene.add.zone(this.x + xOffsetText5, this.y + yOffsetText5, this.text5.displayWidth,this.text5.displayHeight).setName('12/5/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText5, yOffsetText5);
+        this.addInteractable(this.scene.add.zone(this.x + xOffsetText2, this.y + yOffsetText2, this.text2.displayWidth,this.text2.displayHeight).setName('12/6/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText2, yOffsetText2);
+        this.addInteractable(this.scene.add.zone(this.x + xOffsetText3, this.y + yOffsetText3, this.text3.displayWidth,this.text3.displayHeight).setName('12/11/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText3, yOffsetText3);
+        this.addInteractable(this.scene.add.zone(this.x + xOffsetText4, this.y + yOffsetText4, this.text4.displayWidth,this.text4.displayHeight).setName('12/16/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText4, yOffsetText4);
+        this.addInteractable(this.scene.add.zone(this.x + xOffsetText5, this.y + yOffsetText5, this.text5.displayWidth,this.text5.displayHeight).setName('12/21/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText5, yOffsetText5);
 
         return this;
     }
 
     over(date: string): void 
     {
-        switch(date)
-        {
-            case '12/1/2025':
-                this.text1.setFill("#daf82eff")
-                break;
-            case '12/2/2025':
-                this.text2.setFill("#daf82eff")
-                break;
-            case '12/3/2025':
-                this.text3.setFill("#daf82eff")
-                break;
-            case '12/4/2025':
-                this.text4.setFill("#daf82eff")
-                break;
-            case '12/5/2025':
-                this.text5.setFill("#daf82eff")
-                break;
-        }
+
     }
 
     out(date: string): void {
-        this.text1.setFill("#FFF");
-        this.text2.setFill("#FFF");
-        this.text3.setFill("#FFF");
-        this.text4.setFill("#FFF");
-        this.text5.setFill("#FFF");
     }
 
     click(date: string, fn: (affirmation: string) => void): void 
@@ -169,7 +148,7 @@ export class SalemStreets extends BasePanel
                 super.click(date, fn);
             }
         }
-        else if(date == '12/3/2025')
+        else if(date == '12/11/2025')
         {
             this.light.anims.play('SalemStreetsLightSpritesheet_Anim', false);
 

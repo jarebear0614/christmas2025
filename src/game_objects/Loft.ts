@@ -21,9 +21,9 @@ export class Loft extends BasePanel
         super(scene, x, y);   
     }
 
-    create() : BasePanel
+    create(currentDate: Date) : BasePanel
     {
-        super.create();
+        super.create(currentDate);
 
         this.background = this.scene.add.image(this.x, this.y, 'LoftFull').setOrigin(0, 0);
 
@@ -39,11 +39,11 @@ export class Loft extends BasePanel
         this.addObject(this.yinYangCats, yinYangCatsXOffset, yinYangCatsYOffset);
         this.addObject(this.monitor, monitorXOffset, monitorYOffset);
 
-        this.text1 = this.createNumberedText('1');
-        this.text2 = this.createNumberedText('2');
-        this.text3 = this.createNumberedText('3');
-        this.text4 = this.createNumberedText('4');
-        this.text5 = this.createNumberedText('5');
+        this.text1 = this.createNumberedText('3').setFill(currentDate >= new Date(2025, 11, 3) ? '#FFFFFF' : '#AAAAAA');
+        this.text2 = this.createNumberedText('8').setFill(currentDate >= new Date(2025, 11, 8) ? '#FFFFFF' : '#AAAAAA');
+        this.text3 = this.createNumberedText('13').setFill(currentDate >= new Date(2025, 11, 13) ? '#FFFFFF' : '#AAAAAA');
+        this.text4 = this.createNumberedText('18').setFill(currentDate >= new Date(2025, 11, 18) ? '#FFFFFF' : '#AAAAAA');
+        this.text5 = this.createNumberedText('23').setFill(currentDate >= new Date(2025, 11, 23) ? '#FFFFFF' : '#AAAAAA');
 
         let xOffsetText1 = (this.scene.getGameWidth() * 0.03) - (this.text1.displayWidth / 2);
         let yOffsetText1 = (this.scene.getGameHeight() * 0.03) - (this.text1.displayHeight / 2);
@@ -75,18 +75,18 @@ export class Loft extends BasePanel
         this.text5.setPosition(this.x + xOffsetText5, this.y + yOffsetText5);
         this.addObject(this.text5, xOffsetText5, yOffsetText5);
 
-        this.addInteractable(this.scene.add.zone(this.x + xOffsetText1, this.y + yOffsetText1, this.text1.displayWidth,this.text1.displayHeight).setName('12/1/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText1, yOffsetText1);
-        this.addInteractable(this.scene.add.zone(this.x + xOffsetText2, this.y + yOffsetText2, this.text2.displayWidth,this.text2.displayHeight).setName('12/2/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText2, yOffsetText2);
-        this.addInteractable(this.scene.add.zone(this.x + xOffsetText3, this.y + yOffsetText3, this.text3.displayWidth,this.text3.displayHeight).setName('12/3/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText3, yOffsetText3);
-        this.addInteractable(this.scene.add.zone(this.x + xOffsetText4, this.y + yOffsetText4, this.text4.displayWidth,this.text4.displayHeight).setName('12/4/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText4, yOffsetText4);
-        this.addInteractable(this.scene.add.zone(this.x + xOffsetText5, this.y + yOffsetText5, this.text5.displayWidth,this.text5.displayHeight).setName('12/5/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText5, yOffsetText5);
+        this.addInteractable(this.scene.add.zone(this.x + xOffsetText1, this.y + yOffsetText1, this.text1.displayWidth,this.text1.displayHeight).setName('12/3/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText1, yOffsetText1);
+        this.addInteractable(this.scene.add.zone(this.x + xOffsetText2, this.y + yOffsetText2, this.text2.displayWidth,this.text2.displayHeight).setName('12/8/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText2, yOffsetText2);
+        this.addInteractable(this.scene.add.zone(this.x + xOffsetText3, this.y + yOffsetText3, this.text3.displayWidth,this.text3.displayHeight).setName('12/13/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText3, yOffsetText3);
+        this.addInteractable(this.scene.add.zone(this.x + xOffsetText4, this.y + yOffsetText4, this.text4.displayWidth,this.text4.displayHeight).setName('12/18/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText4, yOffsetText4);
+        this.addInteractable(this.scene.add.zone(this.x + xOffsetText5, this.y + yOffsetText5, this.text5.displayWidth,this.text5.displayHeight).setName('12/23/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText5, yOffsetText5);
 
         return this;
     }
 
     click(date: string, fn: (affirmation: string) => void): void 
     {
-        if(date == '12/1/2025')
+        if(date == '12/3/2025')
         {
             this.monitor.setFrame(1);
             super.click(date, fn);
@@ -94,5 +94,9 @@ export class Loft extends BasePanel
         else {
             super.click(date, fn);
         }
+    }
+
+    closeAffirmation(dateL: string): void 
+    {
     }
 }

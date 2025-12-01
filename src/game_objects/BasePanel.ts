@@ -44,7 +44,7 @@ export class BasePanel
         this.y = y;
     }
 
-    create() : BasePanel
+    create(currentDate: Date) : BasePanel
     {
         return this;
     }

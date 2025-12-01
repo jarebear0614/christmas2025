@@ -5,6 +5,8 @@ import { StardewValley } from '../game_objects/StardewValley';
 import { BaseScene } from './BaseScene';
 
 import { GameObjects, Input } from 'phaser'
+import { Gables } from '../game_objects/Gables';
+import { Selfies } from '../game_objects/Selfies';
 
 export class Game extends BaseScene
 {
@@ -22,7 +24,8 @@ export class Game extends BaseScene
     isRightKeyDown: boolean = false;
     isPreviousRightKeyDown: boolean = false;
 
-    currentDate: Date = new Date(new Date().toLocaleDateString());
+    //currentDate: Date = new Date(new Date().toLocaleDateString());
+    currentDate: Date = new Date(2025, 11, 30);
     currentDisplayedDate?: string = undefined;
 
     affirmationDisplayed: boolean = false;
@@ -32,6 +35,9 @@ export class Game extends BaseScene
     affirmationCloseBackground: GameObjects.Rectangle;
     affirmationClose: GameObjects.Image;
     affirmationTweenDuration: number = 250;
+
+    leftArrow: GameObjects.Image;
+    rightArrow: GameObjects.Image;
 
     constructor ()
     {
@@ -51,12 +57,19 @@ export class Game extends BaseScene
         this.load.spritesheet('SalemStreetsManSprite', 'assets/SalemStreetsManSprite.png', {frameWidth: 64, frameHeight: 96 });
 
         this.load.image('StardewValleyBackground', 'assets/StardewValleyBackground.png');
-        this.load.spritesheet('StardewPanelViviSpritesheet', 'assets/vivispritesheet.png', {frameWidth: 96, frameHeight: 128 })
-
+        this.load.spritesheet('StardewPanelViviSpritesheet', 'assets/vivispritesheet.png', {frameWidth: 96, frameHeight: 128 });
 
         this.load.image('LoftFull', 'assets/LoftFull.png');
         this.load.image('LoftYinYangCats', 'assets/LoftYinYangCats.png');
         this.load.spritesheet('LoftMonitor', 'assets/LoftMonitor.png', {frameWidth: 120, frameHeight: 120 });
+
+        this.load.image('GablesFull', 'assets/GablesFull.png');
+        this.load.image('GablesUs', 'assets/GablesUs.png');
+        this.load.image('GablesSun', 'assets/GablesSun.png');
+        this.load.image('GablesRaccoon', 'assets/GablesRaccoon.png');
+        this.load.image('GablesFrog', 'assets/GablesFrog.png');
+
+        this.load.image('SelfiesFull', 'assets/Selfies.png');
     }
 
     create ()
@@ -67,9 +80,11 @@ export class Game extends BaseScene
         this.camera.setBackgroundColor(0xffffff);
 
         this.panelBuilder = new PanelBuilder(this)
-                                .add(new SalemStreets(this, 0, 0).create())
-                                .add(new StardewValley(this, 0, 0).create())
-                                .add(new Loft(this, 0, 0).create());
+                                .add(new SalemStreets(this, 0, 0).create(this.currentDate))
+                                .add(new StardewValley(this, 0, 0).create(this.currentDate))
+                                .add(new Loft(this, 0, 0).create(this.currentDate))
+                                .add(new Gables(this, 0, 0).create(this.currentDate))
+                                .add(new Selfies(this, 0, 0).create(this.currentDate));
 
         this.panelRotator = new PanelRotator(this, this.panelBuilder.toConfig()).create();
 
@@ -95,6 +110,16 @@ export class Game extends BaseScene
 
         this.affirmationText = this.add.text(this.affirmationPaper.x + 30,  this.affirmationPaper.y + 60, '', {fontFamily: 'Arial', fontSize: 48, color: '#000000', wordWrap: {width: this.affirmationPaper.displayWidth - 60, useAdvancedWrap: true}})    
 
+        this.leftArrow = this.add.image(0, 0, 'arrowLeft');
+        this.leftArrow.setPosition(this.getGameWidth() * 0.10, this.getGameHeight() * 0.50);
+        this.leftArrow.setName('left');
+        this.leftArrow.setInteractive({useHandCursor: true});
+
+        this.rightArrow = this.add.image(0, 0, 'arrowRight');
+        this.rightArrow.setPosition(this.getGameWidth() * 0.90, this.getGameHeight() * 0.50);
+        this.rightArrow.setName('right');
+        this.rightArrow.setInteractive({useHandCursor: true});
+
         this.input.on('gameobjectup', (_: Object, gameObject: Phaser.GameObjects.GameObject) => 
         {
             if(gameObject.name == "closeAffirmation") 
@@ -103,10 +128,25 @@ export class Game extends BaseScene
                 return;
             }
 
-            this.panelRotator.click(gameObject.name, (affirmation: string) =>
+            if(gameObject.name == 'left')
             {
-                this.openAffirmation(gameObject, affirmation);
-            });
+                this.panelRotator.left();
+                return;
+            }
+
+            if(gameObject.name == 'right')
+            {
+                this.panelRotator.right();
+                return;
+            }
+
+            if(this.currentDate >= new Date(gameObject.name))
+            {
+                this.panelRotator.click(gameObject.name, (affirmation: string) =>
+                {
+                    this.openAffirmation(gameObject, affirmation);
+                });
+            }
         });
 
         this.input.on('gameobjectover', (_: Object, gameObject: Phaser.GameObjects.GameObject) => 
@@ -118,6 +158,9 @@ export class Game extends BaseScene
         {
             this.panelRotator.out(gameObject.name);
         });
+
+
+
     }
 
     private openAffirmation(gameObject: GameObjects.GameObject, affirmation: string) 
@@ -126,6 +169,9 @@ export class Game extends BaseScene
         {
             return;
         }
+
+        this.leftArrow.setVisible(false);
+        this.rightArrow.setVisible(false);
 
         this.affirmationDisplayed = true;
 
@@ -228,6 +274,9 @@ export class Game extends BaseScene
             this.affirmationCloseBackground.disableInteractive(true);
 
             this.affirmationDisplayed = false;
+
+            this.leftArrow.setVisible(true);
+            this.rightArrow.setVisible(true);
         };
     }
 

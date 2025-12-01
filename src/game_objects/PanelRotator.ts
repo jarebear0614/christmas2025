@@ -67,6 +67,12 @@ export class PanelRotator {
     {
         let w = this.scene.getGameWidth();
 
+        for(let i = 0; i < this.config.panels.length; ++i)
+        {
+            let current = this.config.panels[i];
+            current.panel.setPosition(-5000, 0);
+        }
+
         let currentPanel = this.config.panels[this.index];
         currentPanel.panel.setPosition(0, 0);
 

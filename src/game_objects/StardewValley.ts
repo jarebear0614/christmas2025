@@ -19,9 +19,9 @@ export class StardewValley extends BasePanel
         super(scene, x, y);   
     }
 
-    create() : BasePanel
+    create(currentDate: Date) : BasePanel
     {
-        super.create();
+        super.create(currentDate);
 
         this.background = this.scene.add.image(this.x, this.y, 'StardewValleyBackground').setOrigin(0, 0);
 
@@ -39,11 +39,11 @@ export class StardewValley extends BasePanel
         this.addObject(this.background, 0, 0);
         this.addObject(this.vivi, viviXOffset, viviYOffset);
 
-        this.text1 = this.createNumberedText('1');
-        this.text2 = this.createNumberedText('2');
-        this.text3 = this.createNumberedText('3');
-        this.text4 = this.createNumberedText('4');
-        this.text5 = this.createNumberedText('5');
+        this.text1 = this.createNumberedText('2').setFill(currentDate >= new Date(2025, 11, 2) ? '#FFFFFF' : '#AAAAAA');
+        this.text2 = this.createNumberedText('7').setFill(currentDate >= new Date(2025, 11, 7) ? '#FFFFFF' : '#AAAAAA');
+        this.text3 = this.createNumberedText('12').setFill(currentDate >= new Date(2025, 11, 12) ? '#FFFFFF' : '#AAAAAA');
+        this.text4 = this.createNumberedText('17').setFill(currentDate >= new Date(2025, 11, 17) ? '#FFFFFF' : '#AAAAAA');
+        this.text5 = this.createNumberedText('22').setFill(currentDate >= new Date(2025, 11, 22) ? '#FFFFFF' : '#AAAAAA');
 
         let xOffsetText1 = (this.scene.getGameWidth() * 0.28) - (this.text1.displayWidth / 2);
         let yOffsetText1 = (this.scene.getGameHeight() * 0.13) - (this.text1.displayHeight / 2);
@@ -69,24 +69,24 @@ export class StardewValley extends BasePanel
         this.text4.setPosition(this.x + xOffsetText4, this.y + yOffsetText4);
         this.addObject(this.text4, xOffsetText4, yOffsetText4);
 
-        let xOffsetText5 = (this.scene.getGameWidth() * 0.48) - (this.text5.displayWidth / 2);
+        let xOffsetText5 = (this.scene.getGameWidth() * 0.49) - (this.text5.displayWidth / 2);
         let yOffsetText5 = (this.scene.getGameHeight() * 0.82) - (this.text5.displayHeight / 2);
 
         this.text5.setPosition(this.x + xOffsetText5, this.y + yOffsetText5);
         this.addObject(this.text5, xOffsetText5, yOffsetText5);
 
-        this.addInteractable(this.scene.add.zone(this.x + xOffsetText1, this.y + yOffsetText1, this.text1.displayWidth,this.text1.displayHeight).setName('12/1/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText1, yOffsetText1);
-        this.addInteractable(this.scene.add.zone(this.x + xOffsetText2, this.y + yOffsetText2, this.text2.displayWidth,this.text2.displayHeight).setName('12/2/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText2, yOffsetText2);
-        this.addInteractable(this.scene.add.zone(this.x + xOffsetText3, this.y + yOffsetText3, this.text3.displayWidth,this.text3.displayHeight).setName('12/3/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText3, yOffsetText3);
-        this.addInteractable(this.scene.add.zone(this.x + xOffsetText4, this.y + yOffsetText4, this.text4.displayWidth,this.text4.displayHeight).setName('12/4/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText4, yOffsetText4);
-        this.addInteractable(this.scene.add.zone(this.x + xOffsetText5, this.y + yOffsetText5, this.text5.displayWidth,this.text5.displayHeight).setName('12/5/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText5, yOffsetText5);
+        this.addInteractable(this.scene.add.zone(this.x + xOffsetText1, this.y + yOffsetText1, this.text1.displayWidth,this.text1.displayHeight).setName('12/2/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText1, yOffsetText1);
+        this.addInteractable(this.scene.add.zone(this.x + xOffsetText2, this.y + yOffsetText2, this.text2.displayWidth,this.text2.displayHeight).setName('12/7/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText2, yOffsetText2);
+        this.addInteractable(this.scene.add.zone(this.x + xOffsetText3, this.y + yOffsetText3, this.text3.displayWidth,this.text3.displayHeight).setName('12/12/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText3, yOffsetText3);
+        this.addInteractable(this.scene.add.zone(this.x + xOffsetText4, this.y + yOffsetText4, this.text4.displayWidth,this.text4.displayHeight).setName('12/17/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText4, yOffsetText4);
+        this.addInteractable(this.scene.add.zone(this.x + xOffsetText5, this.y + yOffsetText5, this.text5.displayWidth,this.text5.displayHeight).setName('12/22/2025').setOrigin(0, 0).setInteractive({useHandCursor: true}).setScrollFactor(0), xOffsetText5, yOffsetText5);
 
         return this;
     }
 
     click(date: string, fn: (affirmation: string) => void): void 
     {
-        if(date == '12/5/2025')
+        if(date == '12/22/2025')
         {
             this.vivi.anims.play('StardewPanelViviSpritesheet_Anim', false);
 
