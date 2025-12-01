@@ -24,8 +24,8 @@ export class Game extends BaseScene
     isRightKeyDown: boolean = false;
     isPreviousRightKeyDown: boolean = false;
 
-    //currentDate: Date = new Date(new Date().toLocaleDateString());
-    currentDate: Date = new Date(2025, 11, 30);
+    currentDate: Date = new Date(new Date().toLocaleDateString());
+    //currentDate: Date = new Date(2025, 11, 1);
     currentDisplayedDate?: string = undefined;
 
     affirmationDisplayed: boolean = false;
